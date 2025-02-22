@@ -1,14 +1,22 @@
-const { createServer } = require('node:http');
+const express = require('express');
+const cors = require('cors');
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const app = express();
+const port = 5001; // 確保端口正確
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+app.use(cors()); // 允許跨域請求
+
+// **新增這一行來處理根路徑 "/"**
+app.get('/', (req, res) => {
+    res.send('伺服器運行中！🚀');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+// 測試 API 端點
+app.get('/api/status', (req, res) => {
+    res.json({ message: '伺服器正常運行', status: 'OK' });
+});
+
+// 啟動伺服器
+app.listen(port, () => {
+    console.log(`伺服器運行中：http://localhost:${port}`);
 });
